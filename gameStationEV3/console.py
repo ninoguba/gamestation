@@ -13,16 +13,16 @@ from ev3dev2.sensor import INPUT_1, INPUT_2, INPUT_3, INPUT_4
 from ev3dev2.sensor.lego import TouchSensor
 from ev3dev2.motor import OUTPUT_A, OUTPUT_B, OUTPUT_C, OUTPUT_D, SpeedPercent, LargeMotor
 
-Full = 1200
+Full = 325
 Quarter = Full / 4
 Third = Full / 3
 Half = Full / 2
 ThreeQuarters = Full * 3 / 4
 
 RedPlayer = "red"
-GreenPlayer = "green"
+GreenPlayer = "black"
 BluePlayer = "blue"
-YellowPlayer = "yellow"
+YellowPlayer = "white"
 
 MotorSpeed = 50
 
@@ -37,7 +37,7 @@ YellowCount = 0
 #
 def redButtonCountThread():
     global RedCount
-    while TouchSensor( INPUT_1 ).wait_for_bump( None, 50 ):
+    while TouchSensor( INPUT_3 ).wait_for_bump( None, 50 ):
         RedCount += 1
 
 def greenButtonCountThread():
@@ -47,7 +47,7 @@ def greenButtonCountThread():
 
 def blueButtonCountThread():
     global BlueCount
-    while TouchSensor( INPUT_3 ).wait_for_bump( None, 50 ):
+    while TouchSensor( INPUT_1 ).wait_for_bump( None, 50 ):
         BlueCount += 1
 
 def yellowButtonCountThread():
@@ -91,17 +91,17 @@ tYellow = None
 
 def waitForButton( inPlayer ):
     if inPlayer == RedPlayer:
-        TouchSensor( INPUT_1 ).wait_for_bump()
+        TouchSensor( INPUT_3 ).wait_for_bump()
     elif inPlayer == GreenPlayer:
         TouchSensor( INPUT_2 ).wait_for_bump()
     elif inPlayer == BluePlayer:
-        TouchSensor( INPUT_3 ).wait_for_bump()
+        TouchSensor( INPUT_1 ).wait_for_bump()
     elif inPlayer == YellowPlayer:
         TouchSensor( INPUT_4 ).wait_for_bump()
 
 def moveRedPlayer( inDistance ):
     global RedCurrent
-    LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), -inDistance, True, False )
+    LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), inDistance, True, False )
     RedCurrent += inDistance
 
 def moveGreenPlayer( inDistance ):
@@ -111,12 +111,12 @@ def moveGreenPlayer( inDistance ):
 
 def moveBluePlayer( inDistance ):
     global BlueCurrent
-    LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), inDistance, True, False )
+    LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), inDistance, True, False )
     BlueCurrent += inDistance
 
 def moveYellowPlayer( inDistance ):
     global YellowCurrent
-    LargeMotor( OUTPUT_D ).on_for_degrees( SpeedPercent( MotorSpeed ), -inDistance, True, False )
+    LargeMotor( OUTPUT_D ).on_for_degrees( SpeedPercent( MotorSpeed ), inDistance, True, False )
     YellowCurrent += inDistance
 
 def movePlayer( inPlayer, inDistance ):
@@ -128,7 +128,7 @@ def movePlayer( inPlayer, inDistance ):
         RedDistance = inDistance
 #        tRed = threading.Thread( target=moveRedPlayer, daemon=True )
 #        tRed.start()
-        LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), -RedDistance, True, False )
+        LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), RedDistance, True, False )
         RedCurrent += RedDistance
     elif inPlayer == "green":
         GreenDistance = inDistance
@@ -140,13 +140,13 @@ def movePlayer( inPlayer, inDistance ):
         BlueDistance = inDistance
 #        tBlue = threading.Thread( target=moveBluePlayer, daemon=True )
 #        tBlue.start()
-        LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), BlueDistance, True, False )
+        LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), BlueDistance, True, False )
         BlueCurrent += BlueDistance
     elif inPlayer == "yellow":
         YellowDistance = inDistance
 #        tYellow = threading.Thread( target=moveYellowPlayer, daemon=True )
 #        tYellow.start()
-        LargeMotor( OUTPUT_D ).on_for_degrees( SpeedPercent( MotorSpeed ), -YellowDistance, True, False )
+        LargeMotor( OUTPUT_D ).on_for_degrees( SpeedPercent( MotorSpeed ), YellowDistance, True, False )
         YellowCurrent += YellowDistance
 
 def resetPlayers():
@@ -159,7 +159,7 @@ def resetPlayers():
         print( RedDistance, file=sys.stderr )
 #        tRed = threading.Thread( target=moveRedPlayer, daemon=True )
 #        tRed.start()
-        LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), -RedDistance, True, False )
+        LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), RedDistance, True, False )
         RedCurrent = 0
     if GreenCurrent != 0:
         GreenDistance = -GreenCurrent
@@ -171,13 +171,13 @@ def resetPlayers():
         BlueDistance = -BlueCurrent
 #        tBlue = threading.Thread( target=moveBluePlayer, daemon=True )
 #        tBlue.start()
-        LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), BlueDistance, True, False )
+        LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), BlueDistance, True, False )
         BlueCurrent = 0
     if YellowCurrent != 0:
         YellowDistance = -YellowCurrent
 #        tYellow = threading.Thread( target=moveYellowPlayer, daemon=True )
 #        tYellow.start()
-        LargeMotor( OUTPUT_D ).on_for_degrees( SpeedPercent( MotorSpeed ), -YellowDistance, True, False )
+        LargeMotor( OUTPUT_D ).on_for_degrees( SpeedPercent( MotorSpeed ), YellowDistance, True, False )
         YellowCurrent = 0
 
 def waitForPlayers():
