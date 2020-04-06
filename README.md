@@ -1,3 +1,5 @@
+THIS IS A FORK OF THE ORIGINAL, MODIFIED TO WORK WITH OUR MOC VERSION OF IT.
+
 # Game Station
 
 This is the code for my Game Station project, which is a game console enabling players to play 5 interactive games. It is built using the LEGO MINDSTORMS EV3 and uses an Alexa powered Echo device to provide voice interaction.
