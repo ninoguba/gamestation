@@ -130,7 +130,7 @@ def movePlayer( inPlayer, inDistance ):
 #        tRed.start()
         LargeMotor( OUTPUT_C ).on_for_degrees( SpeedPercent( MotorSpeed ), RedDistance, True, False )
         RedCurrent += RedDistance
-    elif inPlayer == "green":
+    elif inPlayer == "black":
         GreenDistance = inDistance
 #        tGreen = threading.Thread( target=moveGreenPlayer, daemon=True )
 #        tGreen.start()
@@ -142,7 +142,7 @@ def movePlayer( inPlayer, inDistance ):
 #        tBlue.start()
         LargeMotor( OUTPUT_A ).on_for_degrees( SpeedPercent( MotorSpeed ), BlueDistance, True, False )
         BlueCurrent += BlueDistance
-    elif inPlayer == "yellow":
+    elif inPlayer == "white":
         YellowDistance = inDistance
 #        tYellow = threading.Thread( target=moveYellowPlayer, daemon=True )
 #        tYellow.start()
